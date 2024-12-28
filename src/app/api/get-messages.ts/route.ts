@@ -6,7 +6,7 @@ import User from 'next-auth'
 import mongoose from "mongoose";
 
 export async function GET(request: Request){
-    dbConnect()
+    await dbConnect()
 
     const session = await getServerSession(authOptions)
     const user: User = session?.user
@@ -26,7 +26,23 @@ export async function GET(request: Request){
             { $sort: {'messages.createdAt': -1}},
             { $group: { _id: '$_id', messages: {$push: '$messages'}}}
         ])
+        if (!user || user.length === 0){
+            return Response.json({
+                success: false,
+                message: "User not Found"
+            }, {status: 401})
+        }
+        else {
+            return Response.json({
+                success: true,
+                messages: user[0].messages
+            }, {status: 200})
+        }
     } catch (error) {
-        
+        console.log("Unexpected Error occured", error)
+        return Response.json({
+            success: false,
+            message: "An unexpected error occurred",
+        }, {status: 500})
     }
 }
