@@ -43,7 +43,7 @@ export async function POST(request: POST){
         }
 
     } catch (error) {
-        console.error("Error verifying email")
+        console.error("Error verifying email", error)
         return Response.json({
             success: false,
             message: "Error verifying username and mail"

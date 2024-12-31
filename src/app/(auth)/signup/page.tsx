@@ -57,7 +57,7 @@ export default function Page() {
       }
     }
     checkUsernameUnique()
-  }, [debounced])
+  }, [username])
 
   const onSubmit = async (data: z.infer<typeof signUpValidation>) =>
   {
