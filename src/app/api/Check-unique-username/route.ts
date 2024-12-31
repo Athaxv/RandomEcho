@@ -5,7 +5,8 @@ import {usernameValidation} from '@/schemas/signUpSchema'
 
 
 const UsernameQuerySchema = z.object({
-    username: usernameValidation
+    username: usernameValidation,
+    isVerified: z.boolean().optional(),
 })
 
 export async function GET(request: Request){
@@ -16,7 +17,8 @@ export async function GET(request: Request){
     try {
         const { searchParams } = new URL(request.url)
         const queryParam = {
-            username: searchParams.get('username')
+            username: searchParams.get('username'),
+            isVerified: searchParams.get('isVerified') === 'true',
         }
         const result = UsernameQuerySchema.safeParse(queryParam)
         console.log(result)
@@ -31,7 +33,7 @@ export async function GET(request: Request){
             )
         }
 
-        const {username} = result.data
+        const {username, isVerified} = result.data
 
         const existingVerifiedUser = await UserModel.findOne({ username, isVerified })
 

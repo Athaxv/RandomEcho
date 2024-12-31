@@ -44,6 +44,7 @@ export default function Page() {
         try {
           const response = await axios.get(`/api/Check-unique-username?username=${username}`)
           console.log(response)
+          console.log(response.data.message)
           setUsernameMessage(response.data.message)
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
@@ -111,6 +112,7 @@ export default function Page() {
                        />
                     </FormControl>
                     {isCheckingUsername && <Loader2 className="animate-spin"/>}
+                    <p className={`text-sm ${usernameMessage === 'Username is unique' ? 'text-green-500': 'text-red-500'}`}> {usernameMessage}</p>
                     {/* <FormDescription>
                       This is your public display name.
                     </FormDescription> */}
@@ -162,7 +164,7 @@ export default function Page() {
           <div className="text-center mt-4">
           <p>
             Already a member?{' '}
-            <Link href={"/signin"} className="text-blue-600 hover:text-blue-800"></Link>
+            <Link href={"/signin"} className="text-blue-600 hover:text-blue-800">Signin</Link>
           </p>
           </div>
       </div>
