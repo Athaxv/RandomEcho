@@ -8,14 +8,14 @@ import { verifyEmailSchema } from '@/schemas/VerifyEmail'
 import * as z  from "zod"
 import axios, { AxiosError } from 'axios'
 import { ApiResponse } from '@/types/ApiResponse'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
 export default function VerifyAccount() {
     const router = useRouter()
     const params = useParams<{username: string}>()
-    const toast = useToast()
+    const {toast} = useToast()
 
     const form = useForm<z.infer<typeof verifyEmailSchema>>({
             resolver: zodResolver(verifyEmailSchema),
