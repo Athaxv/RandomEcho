@@ -12,6 +12,26 @@ interface User {
     isVerified: boolean;
   }
 
+  declare module "next-auth" {
+    interface Session {
+      user: {
+        _id: string;
+        email: string;
+        isVerified: boolean;
+        username?: string;
+        isAcceptingMessages?: boolean;
+      };
+    }
+  
+    interface JWT {
+      _id: string;
+      email: string;
+      isVerified: boolean;
+      username?: string;
+      isAcceptingMessages?: boolean;
+    }
+  }
+
 export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
@@ -26,7 +46,7 @@ export const authOptions: NextAuthOptions = {
                 try {
                     const user = await UserModel.findOne({
                         $or: [
-                            {email: credentials.identifier},
+                            // {email: credentials.identifier},
                             {username: credentials.identifier},
                         ]
                     })
@@ -39,7 +59,12 @@ export const authOptions: NextAuthOptions = {
                     const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password)
 
                     if (isPasswordCorrect){
-                        return user 
+                        return {
+                            id: user._id.toString(),
+                            email: user.email,
+                            username: user.username,
+                            isVerified: user.isVerified,
+                          };
                     }
                     else {
                         throw new Error('Incorrect Password')
