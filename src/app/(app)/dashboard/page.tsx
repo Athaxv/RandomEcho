@@ -59,6 +59,7 @@ export default function Page() {
     setisSwitchLoading(false)
     try {
       const response = axios.get<ApiResponse>('/api/get-messages')
+      console.log(response);
       setMesaages(response.data.messages || [])
       if (refresh){
         toast({

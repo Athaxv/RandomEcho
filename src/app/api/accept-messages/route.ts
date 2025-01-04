@@ -1,14 +1,13 @@
-import { getServerSession } from "next-auth";
+import { getServerSession, User } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
-import User from 'next-auth'
 
 export async function POST(request: Request){
     await dbConnect();
 
     const session = await getServerSession(authOptions);
-    const user: User = session?.user
+    const user: User = session?.user 
 
     if (!session || !session.user) {
         return Response.json({
@@ -45,7 +44,7 @@ export async function POST(request: Request){
         }
     }
     catch (error) {
-        console.log("Failed to update user status")
+        console.log("Failed to update user status", error)
         return Response.json({
             success: false,
             message: "Failed to update user status"
@@ -53,11 +52,11 @@ export async function POST(request: Request){
     }
 }
 
-export async function GET(request: Request){
+export async function GET(){
     dbConnect();
 
-    const session = getServerSession(authOptions);
-    const user = session?.user
+    const session = await getServerSession(authOptions);
+    const user: User = session?.user 
 
     if (!session || !session.user){
         return Response.json({
@@ -84,7 +83,7 @@ export async function GET(request: Request){
             }, {status: 200})
         }
     } catch (error) {
-        console.log("Error getting acceptance status")
+        console.log("Error getting acceptance status", error)
         return Response.json({
             success: false,
             message: "Error getting acceptance status"
