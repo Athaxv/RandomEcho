@@ -20,7 +20,7 @@ export default function Page() {
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: '',
+      identifier: '',
       password: '',
     }
   })
