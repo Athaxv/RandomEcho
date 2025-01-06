@@ -36,7 +36,7 @@ export default function Page() {
     if (result?.error){
       toast({
         title: "User login Failed",
-        description: "Incorrect username or password",
+        description: result.error,
         variant: 'destructive'
       })
     }

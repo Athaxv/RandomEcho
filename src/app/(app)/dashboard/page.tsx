@@ -58,7 +58,7 @@ export default function Page() {
     setisLoading(true)
     setisSwitchLoading(false)
     try {
-      const response = axios.get<ApiResponse>('/api/get-messages')
+      const response = await axios.get<ApiResponse>('/api/get-messages')
       console.log(response);
       setMesaages(response.data.messages || [])
       if (refresh){
@@ -124,7 +124,7 @@ export default function Page() {
   }
 
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
+    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6  rounded w-full max-w-6xl">
       <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
 
       <div className="mb-4">

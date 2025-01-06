@@ -58,7 +58,7 @@ export default function VerifyAccount() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="Code"
+          name="code"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Verfiy Email</FormLabel>

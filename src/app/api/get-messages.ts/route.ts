@@ -26,7 +26,7 @@ export async function GET() {
       { $sort: { "messages.createdAt": -1 } },
       { $group: { _id: "$_id", messages: { $push: "$messages" } } },
     ]);
-
+    console.log(userData)
     if (!userData || userData.length === 0) {
       return NextResponse.json({
         success: false,
