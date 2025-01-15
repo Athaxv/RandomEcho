@@ -26,6 +26,10 @@ export const authOptions: NextAuthOptions = {
           console.log('Credentials:', credentials.identifier);
 
           console.log(user);
+          console.log('Input password:', credentials.password); // Should log "zxcvbnm"
+          console.log('Stored hashed password:', user?.password);
+          const hashedInputPassword = await bcrypt.hash(credentials.password, 10);
+          console.log(hashedInputPassword)
           if (!user) {
             throw new Error('No user found with this email');
           }
@@ -36,6 +40,7 @@ export const authOptions: NextAuthOptions = {
             credentials.password,
             user.password
           );
+          console.log('Password match result:', isPasswordCorrect);
           if (isPasswordCorrect) {
             return user;
           } else {
