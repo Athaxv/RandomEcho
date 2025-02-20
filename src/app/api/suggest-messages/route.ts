@@ -1,18 +1,29 @@
-import React, { useState, useEffect } from "react";
+import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const QuestionGenerator: React.FC = async () => {
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY; // Store in .env.local
 
-  const apiKey = process.env.GEMINI_API_KEY; // Replace with your API key
+export async function POST() {
+  try {
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY!);
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-  const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const prompt = "Suggest some engaging anonymous messages for conversations. Provide them as a plain-text list, separated by `||`.";
+    const result = await model.generateContent(prompt);
 
-  const prompt = `Create a list of three open-ended and engaging questions formatted as a single string. Each question should be separated by '||'. These questions are for an anonymous social messaging platform, like Qooh.me, and should be suitable for a diverse audience. Avoid personal or sensitive topics, focusing instead on universal themes that encourage friendly interaction. For example, your output should be structured like this: 'What’s a hobby you’ve recently started?||If you could have dinner with any historical figure, who would it be?||What’s a simple thing that makes you happy?'. Ensure the questions are intriguing, foster curiosity, and contribute to a positive and welcoming conversational environment.`;
+    // Extract response text
+    let responseText = result.response.text();
 
-  const result = await model.generateContent(prompt);
-  console.log(result.response.text());
+    // Remove unwanted formatting (e.g., Markdown `**`, `*`, `_`)
+    responseText = responseText.replace(/\*\*/g, "").replace(/\*/g, "").replace(/_/g, "");
 
-};
-
-export default QuestionGenerator;
+    // Return the response as plain text
+    return new Response(responseText, {
+      status: 200,
+      headers: { "Content-Type": "text/plain" },
+    });
+  } catch (error) {
+    console.error("Error generating message:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}

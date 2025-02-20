@@ -22,12 +22,12 @@ export const authOptions: NextAuthOptions = {
               { username: credentials.identifier },
             ],
           });
-          console.log('Credentials:', credentials);
-          console.log('Credentials:', credentials.identifier);
+          // console.log('Credentials:', credentials);
+          // console.log('Credentials:', credentials.identifier);
 
-          console.log(user);
-          console.log('Input password:', credentials.password); // Should log "zxcvbnm"
-          console.log('Stored hashed password:', user?.password);
+          // console.log(user);
+          // console.log('Input password:', credentials.password); // Should log "zxcvbnm"
+          // console.log('Stored hashed password:', user?.password);
           const hashedInputPassword = await bcrypt.hash(credentials.password, 10);
           console.log(hashedInputPassword)
           if (!user) {
