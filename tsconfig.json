@@ -34,7 +34,7 @@
     "next-env.d.ts",
     "src/app/api/get-messages",
     ".next/types/**/*.ts"
-    // ".next/types/**/*.ts"
+, "next.config.js"    // ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
