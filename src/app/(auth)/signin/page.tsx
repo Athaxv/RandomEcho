@@ -52,7 +52,7 @@ export default function Page() {
           <h1 className='text-4xl font-extrabold tracking-tight lg:text-5xl mb-6'>
             Welcome Back
           </h1>
-          <p className='mb-4'>Let's get started with your Echoes</p>
+          <p className='mb-4'>Let&#39;s get started with your Echoes</p>
         </div>
         <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
